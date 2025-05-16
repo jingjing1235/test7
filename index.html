@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <title>Video ngang iOS tối ưu</title>
+  <style>
+    :root {
+      --vh: 100vh;
+    }
+
+    html, body {
+      margin: 0;
+      padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+      width: 100vw;
+      height: calc(var(--vh));
+      background-color: black;
+      overflow: hidden;
+    }
+
+    .video-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: black;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video-wrapper iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    @media screen and (orientation: portrait) {
+      .video-wrapper {
+        width: calc(var(--vh) * 0.95); /* 90% chiều cao thực */
+        height: calc(var(--vh) * 0.95 * 0.5625); /* 16:9 */
+        transform: translate(-50%, -50%) rotate(90deg);
+        transform-origin: center center;
+      }
+    }
+
+    @media screen and (orientation: landscape) {
+      .video-wrapper {
+        width: 100vw;
+        height: calc(100vw * 0.5625); /* 16:9 */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="video-wrapper">
+    <iframe
+      src="https://drive.google.com/file/d/1ZoDwBXYuE1_t554_ULuNkrNX0DjKMBNv/preview"
+      allowfullscreen
+      allow="autoplay; encrypted-media"
+    ></iframe>
+  </div>
+
+  <script>
+    // Cập nhật biến --vh để dùng được trên iOS chính xác
+    function setVH() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh * 100}px`);
+    }
+
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+    setVH(); // gọi khi load lần đầu
+  </script>
+</body>
+</html>
